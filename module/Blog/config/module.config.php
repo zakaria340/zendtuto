@@ -15,25 +15,45 @@ return array(
   ),
   'controllers'     => array(
     'factories' => array(
-      'Blog\Controller\List' => 'Blog\Factory\ListControllerFactory',
+      'Blog\Controller\List'  => 'Blog\Factory\ListControllerFactory',
+      'Blog\Controller\Write' => 'Blog\Factory\WriteControllerFactory',
     ),
   ),
   // This lines opens the configuration for the RouteManager
   'router'          => array(
-    // Open configuration for all possible routes
     'routes' => array(
-      // Define a new route called "post"
-      'post' => array(
-        // Define the routes type to be "Zend\Mvc\Router\Http\Literal", which is basically just a string
-        'type'    => 'literal',
-        // Configure the route itself
-        'options' => array(
-          // Listen to "/blog" as uri
+      'blog' => array(
+        'type'          => 'literal',
+        'options'       => array(
           'route'    => '/blog',
-          // Define default controller and action to be called when this route is matched
           'defaults' => array(
             'controller' => 'Blog\Controller\List',
             'action'     => 'index',
+          ),
+        ),
+        'may_terminate' => TRUE,
+        'child_routes'  => array(
+          'detail' => array(
+            'type'    => 'segment',
+            'options' => array(
+              'route'       => '/:id',
+              'defaults'    => array(
+                'action' => 'detail',
+              ),
+              'constraints' => array(
+                'id' => '[1-9]\d*',
+              ),
+            ),
+          ),
+          'add'    => array(
+            'type'    => 'literal',
+            'options' => array(
+              'route'    => '/add',
+              'defaults' => array(
+                'controller' => 'Blog\Controller\Write',
+                'action'     => 'add',
+              ),
+            ),
           ),
         ),
       ),
