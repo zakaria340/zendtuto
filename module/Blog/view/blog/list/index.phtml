@@ -7,5 +7,9 @@
         <p>
             <?= $post->getText() ?>
         </p>
+      <p>
+        <a href="<?=  $this->url('blog/edit', array('id' => $post->getId())); ?>">Edit</a>
+        <a href="<?=  $this->url('blog/delete', array('id' => $post->getId())); ?>">Delete</a>
+      </p>
     </article>
 <?php endforeach ?>
